@@ -101,6 +101,8 @@ module ActiveMerchant
 
       US_TERRITORIES_TREATED_AS_COUNTRIES = ["AS", "FM", "GU", "MH", "MP", "PW", "PR", "VI"]
 
+      IMPERIAL_COUNTRIES = ["US", "LR", "MM"]
+
       def requirements
         [:key, :login, :password]
       end
@@ -226,7 +228,7 @@ module ActiveMerchant
             #                   * Shipment/DocumentsOnly element
 
             packages.each do |package|
-              options[:imperial] = ['US','LR','MM'].include?(origin.country_code(:alpha2))
+              options[:imperial] = IMPERIAL_COUNTRIES.include?(origin.country_code(:alpha2))
               shipment << build_package_node(package, options)
             end
 
@@ -308,7 +310,7 @@ module ActiveMerchant
               end
             end
             # A request may specify multiple packages.
-            options[:imperial] = ['US','LR','MM'].include?(origin.country_code(:alpha2))
+            options[:imperial] = IMPERIAL_COUNTRIES.include?(origin.country_code(:alpha2))
             packages.each do |package|
               shipment << build_package_node(package, options)
             end
