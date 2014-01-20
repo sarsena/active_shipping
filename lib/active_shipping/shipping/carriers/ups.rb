@@ -358,15 +358,15 @@ module ActiveMerchant
         #                   * Shipment/(Shipper|ShipTo|ShipFrom)/TaxIdentificationNumber element
         location_node = XmlNode.new(name) do |location_node|
           # You must specify the shipper name when creating labels.
-          if shipper_name = (@options[:origin_name] || options[:origin_name])
+          if shipper_name = (options[:origin_name] || @options[:origin_name])
             location_node << XmlNode.new('Name', shipper_name)
           end
           location_node << XmlNode.new('PhoneNumber', location.phone.gsub(/[^\d]/,'')) unless location.phone.blank?
           location_node << XmlNode.new('FaxNumber', location.fax.gsub(/[^\d]/,'')) unless location.fax.blank?
 
-          if name == 'Shipper' and (origin_account = @options[:origin_account] || options[:origin_account])
+          if name == 'Shipper' and (origin_account = options[:origin_account] || @options[:origin_account])
             location_node << XmlNode.new('ShipperNumber', origin_account)
-          elsif name == 'ShipTo' and (destination_account = @options[:destination_account] || options[:destination_account])
+          elsif name == 'ShipTo' and (destination_account = options[:destination_account] || @options[:destination_account])
             location_node << XmlNode.new('ShipperAssignedIdentificationNumber', destination_account)
           end
 
