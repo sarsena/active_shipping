@@ -300,6 +300,13 @@ module ActiveMerchant
                 rate   << XmlNode.new('NegotiatedRatesIndicator')
               end
             end
+            # Optional.
+            if options[:shipment] && options[:shipment][:reference_number]
+              shipment    << XmlNode.new("ReferenceNumber") do |ref_node|
+                ref_node  << XmlNode.new("Code", options[:shipment][:reference_number][:code] || "")
+                ref_node  << XmlNode.new("Value", options[:shipment][:reference_number][:value])
+              end
+            end
             # Conditionally required.  Either this element or an ItemizedPaymentInformation
             # is needed.  However, only PaymentInformation is not implemented.
             shipment      << XmlNode.new('PaymentInformation') do |payment|
@@ -430,10 +437,10 @@ module ActiveMerchant
             package_weight << XmlNode.new("Weight", [value,0.1].max)
           end
 
-          if options[:reference_number]
+          if options[:package] && options[:package][:reference_number]
             package_node << XmlNode.new("ReferenceNumber") do |ref_node|
-              ref_node   << XmlNode.new("Code", options[:reference_number][:code] || "")
-              ref_node   << XmlNode.new("Value", options[:reference_number][:value])
+              ref_node   << XmlNode.new("Code", options[:package][:reference_number][:code] || "")
+              ref_node   << XmlNode.new("Value", options[:package][:reference_number][:value])
             end
           end
 
