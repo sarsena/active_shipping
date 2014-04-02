@@ -31,6 +31,10 @@ module ActiveMerchant
       def obtain_shipping_labels(origin, destination, packages, options = {})
       end
 
+      # Override with whatever you need to void a shipping label
+      def void_shipping_labels(identification_number, tracking_numbers=[], options={})
+      end
+      
       # Validate credentials with a call to the API. By default this just does a find_rates call
       # with the orgin and destination both as the carrier's default_location. Override to provide
       # alternate functionality, such as checking for test_mode to use test servers, etc.
