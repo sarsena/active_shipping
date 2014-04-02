@@ -1,5 +1,5 @@
-module ActiveMerchant
-  module Shipping
+module ActiveMerchant #:nodoc:
+  module Shipping #:nodoc:
     class VoidResult
       attr_reader :tracking_number
       attr_reader :status_code

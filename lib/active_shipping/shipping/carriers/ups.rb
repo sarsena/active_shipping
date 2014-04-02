@@ -168,7 +168,7 @@ module ActiveMerchant
       end
 
       def void_shipping_labels(identification_number, tracking_numbers=[], options={})
-        options = @option.merge(options)
+        options = @options.merge(options)
         tracking_numbers = Array(tracking_numbers)
         access_request = "<?xml version='1.0' ?>" + build_access_request
         void_request = "<?xml version='1.0' encoding='UTF-8' ?>" + build_void_label_request(identification_number, tracking_numbers, options)
