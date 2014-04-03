@@ -362,7 +362,7 @@ module ActiveMerchant
           if tracking_numbers.blank?
             void_request << XmlNode.new('ShipmentIdentificationNumber', identification_number)
           else
-            void_request << XmlNode.new('ExandedVoidShipment') do |expanded_void_shipment|
+            void_request << XmlNode.new('ExpandedVoidShipment') do |expanded_void_shipment|
               expanded_void_shipment << XmlNode.new('ShipmentIdentificationNumber', identification_number)
               tracking_numbers.each do |tracking_number|
                 expanded_void_shipment << XmlNode.new('TrackingNumber', tracking_number)
