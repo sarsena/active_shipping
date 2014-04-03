@@ -170,10 +170,15 @@ module ActiveMerchant
       def void_shipping_labels(identification_number, tracking_numbers=[], options={})
         options = @options.merge(options)
         tracking_numbers = Array(tracking_numbers)
-        access_request = "<?xml version='1.0' ?>" + build_access_request
-        void_request = "<?xml version='1.0' encoding='UTF-8' ?>" + build_void_label_request(identification_number, tracking_numbers, options)
-        response = commit(:void, save_request(access_request + void_request), (options[:test] || false))
-        p parse_void_response(response, options)
+        begin
+          access_request = "<?xml version='1.0' ?>" + build_access_request
+          void_request = "<?xml version='1.0' encoding='UTF-8' ?>" + build_void_label_request(identification_number, tracking_numbers, options)
+          response = commit(:void, save_request(access_request + void_request), (options[:test] || false))
+          
+          parse_void_response(response, options)
+        rescue RuntimeError => e
+          raise "Could not void shipping label. #{e.message}"
+        end
       end
 
       protected
