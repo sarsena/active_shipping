@@ -693,9 +693,8 @@ module ActiveMerchant
         xml = REXML::Document.new(response)
         success = response_success?(xml)
         message = response_message(xml)
-        p success
+        p success 
         p message
-        p xml.elements['VoidShipmentResponse/Status']
         if success
           @package_level_results = []
           xml.elements.each('/*/PackageLevelResults') do |package_level_result|
@@ -707,10 +706,12 @@ module ActiveMerchant
           status_node = xml.elements['VoidShipmentResponse/Status']
           status_type = status_node.get_text('StatusType/Code').to_s
           status_code = status_node.get_text('StatusCode/Code').to_s
+        else
+          status_node = xml.elements['VoidShipmentResponse/Error']
+          status_type = status_node.get_text('ErrorSeverity').to_s
+          status_code = status_node.get_text('ErrorCode').to_s
         end
-        p status_type
-        p status_code
-        lol = VoidResponse.new(success, message, Hash.from_xml(response).values.first,
+        VoidResponse.new(success, message, Hash.from_xml(response).values.first,
           {
             :xml => response,
             :request => last_request,
