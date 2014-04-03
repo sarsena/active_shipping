@@ -191,7 +191,7 @@ module ActiveMerchant
       end
 
       def build_access_request
-        xml_request = XmlNode.new('AccessRequest') do |access_request|
+        xml_request = XmlNode.new("AccessRequest") do |access_request|
           access_request << XmlNode.new('AccessLicenseNumber', @options[:key])
           access_request << XmlNode.new('UserId', @options[:login])
           access_request << XmlNode.new('Password', @options[:password])
@@ -351,7 +351,7 @@ module ActiveMerchant
         xml_request = XmlNode.new('VoidShipmentRequest') do |void_request|
           void_request << XmlNode.new('Request') do |request|
             request << XmlNode.new('RequestAction', 'Void')
-            request << XmlNode.new('RequestOption', '1')
+            # request << XmlNode.new('RequestOption', '1')
             if options[:customer_context]
               request << XmlNode.new('TransactionReference') do |refer|
                 refer << XmlNode.new('CustomerContext', options[:customer_context])
