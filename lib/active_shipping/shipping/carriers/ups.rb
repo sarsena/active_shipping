@@ -718,7 +718,6 @@ module ActiveMerchant
             :status_code => status_code 
           }
         )
-        p lol
       end
 
       def commit(action, request, test = false)
