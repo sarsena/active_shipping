@@ -695,6 +695,7 @@ module ActiveMerchant
         message = response_message(xml)
         p success
         p message
+        p xml.elements['VoidShipmentResponse/Status']
         if success
           @package_level_results = []
           xml.elements.each('/*/PackageLevelResults') do |package_level_result|
