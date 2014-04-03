@@ -708,6 +708,7 @@ module ActiveMerchant
           status_code = status_node.get_text('StatusCode/Code').to_s
         else
           status_node = xml.elements['VoidShipmentResponse/Error']
+          p status_node
           status_type = status_node.get_text('ErrorSeverity').to_s
           status_code = status_node.get_text('ErrorCode').to_s
         end
