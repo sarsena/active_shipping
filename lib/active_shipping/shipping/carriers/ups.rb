@@ -701,10 +701,10 @@ module ActiveMerchant
           status_type = status_node.get_text('StatusType/Code').to_s
           status_code = status_node.get_text('StatusCode/Code').to_s
         else 
-          status_node = xml.elements['VoidShipmentResponse/Error']
+          status_node = xml.elements['VoidShipmentResponse/Response']
           p status_node
-          status_type = status_node.get_text('ErrorSeverity').to_s
-          status_code = status_node.get_text('ErrorCode').to_s
+          status_type = status_node.get_text('Error/ErrorSeverity').to_s
+          status_code = status_node.get_text('Error/ErrorCode').to_s
         end
         
         lol = VoidResponse.new(success, message, Hash.from_xml(response).values.first,
