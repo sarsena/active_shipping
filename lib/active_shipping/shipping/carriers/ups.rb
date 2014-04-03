@@ -175,7 +175,12 @@ module ActiveMerchant
           void_request = "<?xml version='1.0' encoding='UTF-8' ?>" + build_void_label_request(identification_number, tracking_numbers, options)
           response = commit(:void, save_request(access_request + void_request), (options[:test] || false))
           
-          parse_void_response(response, options)
+          xml = parse_void_response(response, options)
+          success = response_success?(xml)
+          message = response_message(xml)
+
+          raise message unless success
+          xml
         rescue RuntimeError => e
           raise "Could not void shipping label. #{e.message}"
         end
@@ -701,6 +706,7 @@ module ActiveMerchant
           status_type = status_node.get_text('StatusType/Code').to_s
           status_code = status_node.get_text('StatusCode/Code').to_s
         end
+        p xml
         VoidResponse.new(success, message, Hash.from_xml(response).values.first,
           {
             :xml => response,
