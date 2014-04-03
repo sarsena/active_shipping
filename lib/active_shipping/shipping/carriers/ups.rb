@@ -691,13 +691,15 @@ module ActiveMerchant
           status_type = status_node.get_text('StatusType/Code').to_s
           status_code = status_node.get_text('StatusCode/Code').to_s
         end
-        VoidShipmentResponse.new(success, message, Hash.from_xml(response).values.first,
-          :xml => response,
-          :request => last_request,
-          :package_level_results => @package_level_results,
-          :status_type => status_type,
-          :status_code => status_code
-          )
+        VoidResponse.new(success, message, Hash.from_xml(response).values.first,
+          {
+            :xml => response,
+            :request => last_request,
+            :package_level_results => @package_level_results,
+            :status_type => status_type,
+            :status_code => status_code 
+          }
+        )
       end
 
       def commit(action, request, test = false)

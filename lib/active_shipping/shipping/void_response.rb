@@ -1,6 +1,6 @@
 module ActiveMerchant
   module Shipping
-    class VoidShipmentResponse < Response
+    class VoidResponse < Response
       attr_reader :status_code
       attr_reader :status_type
       attr_reader :package_level_results
