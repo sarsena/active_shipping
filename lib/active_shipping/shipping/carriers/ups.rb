@@ -693,7 +693,8 @@ module ActiveMerchant
         xml = REXML::Document.new(response)
         success = response_success?(xml)
         message = response_message(xml)
-
+        p success
+        p message
         if success
           @package_level_results = []
           xml.elements.each('/*/PackageLevelResults') do |package_level_result|
