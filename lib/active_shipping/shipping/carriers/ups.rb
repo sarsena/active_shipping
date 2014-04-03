@@ -352,6 +352,11 @@ module ActiveMerchant
           void_request << XmlNode.new('Request') do |request|
             request << XmlNode.new('RequestAction', 'Void')
             request << XmlNode.new('RequestOption', '1')
+            if options[:customer_context]
+              request << XmlNode.new('TransactionReference') do |refer|
+                refer << XmlNode.new('CustomerContext', options[:customer_context])
+              end
+            end
           end
 
           if tracking_numbers.blank?
