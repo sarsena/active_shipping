@@ -684,7 +684,6 @@ module ActiveMerchant
       end
 
       def parse_void_response(response, options={})
-        p options
         xml = REXML::Document.new(response)
         success = response_success?(xml)
         message = response_message(xml)
