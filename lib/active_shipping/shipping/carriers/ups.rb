@@ -169,7 +169,6 @@ module ActiveMerchant
 
       def void_shipping_labels(identification_number, tracking_numbers=[], options={})
         options = @options.merge(options)
-        p options
         tracking_numbers = Array(tracking_numbers)
         begin
           access_request = "<?xml version='1.0' ?>" + build_access_request
@@ -672,10 +671,6 @@ module ActiveMerchant
         xml.get_text('/*/ShipmentDigest').to_s
       end
 
-      def response_void_failure?(xml)
-        xml.get_text('/*/Repsonse/ResponseStatusCode').to_s == '0'
-      end
-
       def parse_ship_confirm(response)
         xml = REXML::Document.new(response)
       end
@@ -692,11 +687,9 @@ module ActiveMerchant
         p options
         xml = REXML::Document.new(response)
         success = response_success?(xml)
-        void_failure = response_void_failure?(xml)
         message = response_message(xml)
-
+        @package_level_results = []
         if success
-          @package_level_results = []
           xml.elements.each('/*/PackageLevelResults') do |package_level_result|
             tracking_number = package_level_result.get_text('TrackingNumber').to_s
             status_code = package_level_result.get_text('StatusCode').to_s.to_f
