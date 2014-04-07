@@ -700,6 +700,7 @@ module ActiveMerchant
           status_type = status_node.get_text('StatusType/Code').to_s
           status_code = status_node.get_text('StatusCode/Code').to_s
         else
+          success = options[:display_errors]
           status_node = xml.elements['VoidShipmentResponse/Response']
           status_type = status_node.get_text('Error/ErrorSeverity').to_s
           status_code = status_node.get_text('Error/ErrorCode').to_s
