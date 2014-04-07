@@ -685,7 +685,7 @@ module ActiveMerchant
 
       def parse_void_response(response, options={})
         xml = REXML::Document.new(response)
-        success = response_success?(xml)
+         = response_success?(xml)
         message = response_message(xml)
 
         if success
@@ -699,11 +699,10 @@ module ActiveMerchant
           status_node = xml.elements['VoidShipmentResponse/Status']
           status_type = status_node.get_text('StatusType/Code').to_s
           status_code = status_node.get_text('StatusCode/Code').to_s
-        # else
-        #   success = true
-        #   status_node = xml.elements['VoidShipmentResponse/Response']
-        #   status_type = status_node.get_text('Error/ErrorSeverity').to_s
-        #   status_code = status_node.get_text('Error/ErrorCode').to_s
+        else
+          status_node = xml.elements['VoidShipmentResponse/Response']
+          status_type = status_node.get_text('Error/ErrorSeverity').to_s
+          status_code = status_node.get_text('Error/ErrorCode').to_s
         end
         
         VoidResponse.new(success, message, Hash.from_xml(response).values.first,
