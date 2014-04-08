@@ -171,9 +171,11 @@ module ActiveMerchant
         options = @options.merge(options)
         tracking_numbers = Array(tracking_numbers)
         begin
+          # Build the Void Label Request.
           access_request = "<?xml version='1.0' ?>" + build_access_request
           void_request = "<?xml version='1.0' encoding='UTF-8' ?>" + build_void_label_request(identification_number, tracking_numbers, options)
           response = commit(:void, save_request(access_request + void_request), (options[:test] || false))
+          # Parse the void response
           parse_void_response(response, options)
         rescue RuntimeError => e
           raise "Could not void shipping label. #{e.message}"
@@ -353,9 +355,10 @@ module ActiveMerchant
 
       def build_void_label_request(identification_number, tracking_numbers = [], options = {})
         xml_request = XmlNode.new('VoidShipmentRequest') do |void_request|
+          # Required element.
           void_request << XmlNode.new('Request') do |request|
             request << XmlNode.new('RequestAction', 'Void')
-            # request << XmlNode.new('RequestOption', '1')
+            # Optional.
             if options[:customer_context]
               request << XmlNode.new('TransactionReference') do |refer|
                 refer << XmlNode.new('CustomerContext', options[:customer_context])
@@ -363,6 +366,7 @@ module ActiveMerchant
             end
           end
 
+          # Required element. The shipment id number and any additional tracking numbers if they exist.
           if tracking_numbers.blank?
             void_request << XmlNode.new('ShipmentIdentificationNumber', identification_number)
           else
@@ -688,6 +692,7 @@ module ActiveMerchant
         success = response_success?(xml)
         message = response_message(xml)
         @package_level_results = []
+
         if success
           xml.elements.each('/*/PackageLevelResults') do |package_level_result|
             tracking_number = package_level_result.get_text('TrackingNumber').to_s
@@ -699,7 +704,9 @@ module ActiveMerchant
           status_type = status_node.get_text('StatusType/Code').to_s
           status_code = status_node.get_text('StatusCode/Code').to_s
         else
+          # Sets the option to allow for errors to be passed/handled in app.
           success = options[:display_errors]
+          # Sets the error codes
           status_node = xml.elements['VoidShipmentResponse/Response']
           status_type = status_node.get_text('Error/ErrorSeverity').to_s
           status_code = status_node.get_text('Error/ErrorCode').to_s
