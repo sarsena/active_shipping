@@ -54,7 +54,6 @@ module ActiveMerchant
         "03" => "UPS Ground",
         "07" => "UPS Worldwide Express",
         "08" => "UPS Worldwide Expedited",
-        "09" => "UPS Expedited",
         "11" => "UPS Standard",
         "12" => "UPS Three-Day Select",
         "13" => "UPS Next Day Air Saver",
@@ -71,8 +70,9 @@ module ActiveMerchant
 
       CANADA_ORIGIN_SERVICES = {
         "01" => "UPS Express",
-        "02" => "UPS Expedited",
-        "14" => "UPS Express Early A.M."
+        "08" => "UPS Expedited",
+        "14" => "UPS Express Early A.M.",
+        "65" => "UPS Express Saver"
       }
 
       MEXICO_ORIGIN_SERVICES = {
