@@ -54,6 +54,7 @@ module ActiveMerchant
         "03" => "UPS Ground",
         "07" => "UPS Worldwide Express",
         "08" => "UPS Worldwide Expedited",
+        "09" => "UPS Expedited",
         "11" => "UPS Standard",
         "12" => "UPS Three-Day Select",
         "13" => "UPS Next Day Air Saver",
