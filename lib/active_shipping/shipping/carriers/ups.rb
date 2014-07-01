@@ -71,6 +71,7 @@ module ActiveMerchant
       CANADA_ORIGIN_SERVICES = {
         "01" => "UPS Express",
         "08" => "UPS Expedited",
+        "11" => "UPS Standard",
         "14" => "UPS Express Early A.M.",
         "65" => "UPS Express Saver"
       }
